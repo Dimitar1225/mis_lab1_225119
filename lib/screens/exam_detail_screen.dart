@@ -4,67 +4,78 @@ import '../models/exam.dart';
 
 class ExamDetailScreen extends StatelessWidget {
   final Exam exam;
-
   const ExamDetailScreen({super.key, required this.exam});
 
-  String getTimeRemaining() {
+  String _getTimeRemaining() {
     final now = DateTime.now();
-    final diff = exam.dateTime.difference(now);
+    final difference = exam.dateTime.difference(now);
 
-    if (diff.isNegative) return "Испитот помина";
+    if (difference.isNegative) return "Испитот помина!";
 
-    final days = diff.inDays;
-    final hours = diff.inHours % 24;
-    return "$days дена, $hours часа";
+    final days = difference.inDays;
+    final hours = difference.inHours % 24;
+
+    return "Преостануваат $days дена и $hours часа";
   }
 
   @override
   Widget build(BuildContext context) {
-    final dateFormat = DateFormat('dd.MM.yyyy HH:mm');
+    final timeRemaining = _getTimeRemaining();
 
     return Scaffold(
       appBar: AppBar(
         title: Text(exam.subjectName),
-        backgroundColor: Colors.blue.shade700,
-        foregroundColor: Colors.white,
+        backgroundColor: Colors.blueAccent,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20),
         child: Card(
+          elevation: 6,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          elevation: 4,
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  exam.subjectName,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
                 Row(
                   children: [
-                    const Icon(Icons.calendar_today),
-                    const SizedBox(width: 8),
-                    Text("Датум и време: ${dateFormat.format(exam.dateTime)}"),
+                    const Icon(Icons.calendar_today, color: Colors.blueAccent),
+                    const SizedBox(width: 10),
+                    Text(DateFormat('dd.MM.yyyy').format(exam.dateTime),
+                        style: const TextStyle(fontSize: 18)),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 12),
                 Row(
                   children: [
-                    const Icon(Icons.location_on),
-                    const SizedBox(width: 8),
-                    Text("Простории: ${exam.rooms.join(', ')}"),
+                    const Icon(Icons.access_time, color: Colors.blueAccent),
+                    const SizedBox(width: 10),
+                    Text(DateFormat('HH:mm').format(exam.dateTime),
+                        style: const TextStyle(fontSize: 18)),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 12),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.timer),
-                    const SizedBox(width: 8),
-                    Text("Преостанато време: ${getTimeRemaining()}"),
+                    const Icon(Icons.meeting_room, color: Colors.blueAccent),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(exam.rooms.join(', '),
+                          style: const TextStyle(fontSize: 18)),
+                    ),
                   ],
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    timeRemaining,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepPurple,
+                    ),
+                  ),
                 ),
               ],
             ),

@@ -12,3 +12,4 @@ final List<Exam> exams = [
   Exam(subjectName: "Мобилни Информациски системи", dateTime: DateTime(2025, 11, 29, 11, 0), rooms: ["Лаб 215"]),
   Exam(subjectName: "Веб програмирање", dateTime: DateTime(2025, 11, 30, 10, 0), rooms: ["Лаб 12"]),
 ];
+

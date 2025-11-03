@@ -4,7 +4,7 @@ class Exam {
   final List<String> rooms;
   final bool passed;
 
-  const Exam({
+  Exam({
     required this.subjectName,
     required this.dateTime,
     required this.rooms,
